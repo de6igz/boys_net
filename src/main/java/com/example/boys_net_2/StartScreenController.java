@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class StartScreenController {
+public class StartScreenController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -48,11 +49,7 @@ public class StartScreenController {
     @FXML
     private Button registerButton;
 
-    @FXML
-    void initialize() {
-       loginButton.setOnAction(this::switchSceneLogin);
-        registerButton.setOnAction(this::switchSceneRegister);
-    }
+
     void switchSceneLogin(ActionEvent event)  {
         try {
             root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login_screen.fxml")));
@@ -72,6 +69,7 @@ public class StartScreenController {
             stage.setScene(scene);
         });
         fadeTransition.play();
+
 
 
 
@@ -100,4 +98,19 @@ public class StartScreenController {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        intro();
+        loginButton.setOnAction(this::switchSceneLogin);
+        registerButton.setOnAction(this::switchSceneRegister);
+    }
+    private void intro(){
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(2000));
+        fadeTransition.setNode(buttonsPane);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1);
+        fadeTransition.play();
+    }
 }
