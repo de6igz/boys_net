@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'VAG World Bold';
+    src: local("VAG World Bold");
+}
+.text {
+    -fx-font-family: "VAG World Bold";
+}
