@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -39,6 +40,9 @@ public class StartScreenController {
     private AnchorPane buttonsPane;
 
     @FXML
+    private AnchorPane parentPane;
+
+    @FXML
     private Button loginButton;
 
     @FXML
@@ -46,10 +50,7 @@ public class StartScreenController {
 
     @FXML
     void initialize() {
-       loginButton.setOnAction(action->{
-           fadeOut();
-           switchSceneLogin(action);
-       });
+       loginButton.setOnAction(this::switchSceneLogin);
         registerButton.setOnAction(this::switchSceneRegister);
     }
     void switchSceneLogin(ActionEvent event)  {
@@ -58,13 +59,24 @@ public class StartScreenController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(buttonsPane);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setOnFinished((ActionEvent event1)->{
+            parentPane.getChildren().remove(buttonsPane);
+            stage.setScene(scene);
+        });
+        fadeTransition.play();
+
+
+
+
+
 
     }
     void switchSceneRegister(ActionEvent event)  {
@@ -75,12 +87,17 @@ public class StartScreenController {
         }
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(buttonsPane);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setOnFinished((ActionEvent event1)->{
+            parentPane.getChildren().remove(buttonsPane);
+            stage.setScene(scene);
+        });
+        fadeTransition.play();
 
     }
-    void fadeOut(){
 
-    }
 }

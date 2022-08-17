@@ -77,7 +77,6 @@ public class RegisterScreenController {
     @FXML
     void initialize() {
         backButton.setOnAction(this::switchSceneStart);
-
     }
     void switchSceneStart(ActionEvent event)  {
         try {
