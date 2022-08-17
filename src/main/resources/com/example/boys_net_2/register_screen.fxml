@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fbf3e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boys_net_2.RegisterScreenController">
+<AnchorPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fbf3e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boys_net_2.RegisterScreenController">
    <children>
       <Line endX="1072.0" layoutX="128.0" layoutY="173.0" startX="-127.0" strokeWidth="10.0" />
       <Label fx:id="boysNetLabel" layoutX="394.0" layoutY="26.0" prefHeight="136.0" prefWidth="473.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
@@ -18,66 +18,70 @@
             <Font name="Serif Bold" size="83.0" />
          </font>
       </Label>
-      <Button fx:id="registerButton" layoutX="795.0" layoutY="282.0" mnemonicParsing="false" prefHeight="299.0" prefWidth="216.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="REGISTER" textFill="#fbf3e6">
-         <font>
-            <Font name="Serif Bold" size="22.0" />
-         </font>
-      </Button>
       <Label fx:id="boysNetLabelShadow" layoutX="400.0" layoutY="26.0" opacity="0.4" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
          <font>
             <Font name="System Bold" size="83.0" />
          </font>
       </Label>
-      <TextField fx:id="nameField" alignment="CENTER" layoutX="294.0" layoutY="282.0" prefHeight="51.0" prefWidth="188.0" promptText="Имя" style="-fx-background-color: black; -fx-background-radius: 30;">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="surnameField" alignment="CENTER" layoutX="294.0" layoutY="359.0" prefHeight="51.0" prefWidth="188.0" promptText="Фамилия" style="-fx-background-color: black; -fx-background-radius: 30;">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="loginField" alignment="CENTER" layoutX="294.0" layoutY="429.0" prefHeight="51.0" prefWidth="188.0" promptText="Логин" style="-fx-background-color: black; -fx-background-radius: 30;">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="297.0" layoutY="505.0" prefHeight="51.0" prefWidth="182.0" promptText="Пароль" style="-fx-background-color: black; -fx-background-radius: 30;">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </PasswordField>
-      <RadioButton fx:id="radButtonMale" layoutX="311.0" layoutY="664.0" mnemonicParsing="false">
-         <toggleGroup>
-            <ToggleGroup fx:id="gender" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="radButtonFemale" layoutX="463.0" layoutY="665.0" mnemonicParsing="false" toggleGroup="$gender" />
-      <Label fx:id="boysNetLabel1" layoutX="282.0" layoutY="599.0" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
-         <font>
-            <Font name="Serif Bold" size="28.0" />
-         </font>
-      </Label>
-      <Label fx:id="boysNetLabel11" layoutX="423.0" layoutY="599.0" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
-         <font>
-            <Font name="Serif Bold" size="28.0" />
-         </font>
-      </Label>
-      <Label fx:id="boysNetLabel12" layoutX="285.0" layoutY="605.0" opacity="0.19" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
-         <font>
-            <Font name="Serif Bold" size="28.0" />
-         </font>
-      </Label>
-      <Label fx:id="boysNetLabel111" layoutX="426.0" layoutY="605.0" opacity="0.19" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
-         <font>
-            <Font name="Serif Bold" size="28.0" />
-         </font>
-      </Label>
-      <Button fx:id="backButton" layoutX="32.0" layoutY="199.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Назад" textFill="#fbf3e6">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Button>
+      <AnchorPane fx:id="buttonsPane" layoutX="32.0" layoutY="199.0">
+         <children>
+            <Button fx:id="registerButton" layoutX="763.0" layoutY="83.0" mnemonicParsing="false" prefHeight="299.0" prefWidth="216.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="REGISTER" textFill="#fbf3e6">
+               <font>
+                  <Font name="Serif Bold" size="22.0" />
+               </font>
+            </Button>
+            <TextField fx:id="nameField" alignment="CENTER" layoutX="262.0" layoutY="83.0" prefHeight="51.0" prefWidth="188.0" promptText="Имя" style="-fx-background-color: black; -fx-background-radius: 30;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="surnameField" alignment="CENTER" layoutX="262.0" layoutY="160.0" prefHeight="51.0" prefWidth="188.0" promptText="Фамилия" style="-fx-background-color: black; -fx-background-radius: 30;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="loginField" alignment="CENTER" layoutX="262.0" layoutY="230.0" prefHeight="51.0" prefWidth="188.0" promptText="Логин" style="-fx-background-color: black; -fx-background-radius: 30;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="265.0" layoutY="306.0" prefHeight="51.0" prefWidth="182.0" promptText="Пароль" style="-fx-background-color: black; -fx-background-radius: 30;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </PasswordField>
+            <RadioButton fx:id="radButtonMale" layoutX="279.0" layoutY="465.0" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="gender" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radButtonFemale" layoutX="431.0" layoutY="466.0" mnemonicParsing="false" toggleGroup="$gender" />
+            <Label fx:id="boysNetLabel1" layoutX="250.0" layoutY="400.0" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
+               <font>
+                  <Font name="Serif Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label fx:id="boysNetLabel11" layoutX="391.0" layoutY="400.0" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
+               <font>
+                  <Font name="Serif Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label fx:id="boysNetLabel12" layoutX="253.0" layoutY="406.0" opacity="0.19" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
+               <font>
+                  <Font name="Serif Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label fx:id="boysNetLabel111" layoutX="394.0" layoutY="406.0" opacity="0.19" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
+               <font>
+                  <Font name="Serif Bold" size="28.0" />
+               </font>
+            </Label>
+            <Button fx:id="backButton" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Назад" textFill="#fbf3e6">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

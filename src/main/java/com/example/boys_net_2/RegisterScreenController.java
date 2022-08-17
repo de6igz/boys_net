@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,9 +19,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-public class RegisterScreenController {
+public class RegisterScreenController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -64,6 +68,10 @@ public class RegisterScreenController {
 
     @FXML
     private RadioButton radButtonFemale;
+    @FXML
+    private AnchorPane buttonsPane;
+    @FXML
+    private AnchorPane parentPane;
 
     @FXML
     private RadioButton radButtonMale;
@@ -74,10 +82,7 @@ public class RegisterScreenController {
     @FXML
     private TextField surnameField;
 
-    @FXML
-    void initialize() {
-        backButton.setOnAction(this::switchSceneStart);
-    }
+
     void switchSceneStart(ActionEvent event)  {
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login_register_screen.fxml")));
@@ -86,9 +91,32 @@ public class RegisterScreenController {
         }
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(buttonsPane);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setOnFinished((ActionEvent event1)->{
+            parentPane.getChildren().remove(buttonsPane);
+            stage.setScene(scene);
+        });
+        fadeTransition.play();
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        intro();
+        backButton.setOnAction(this::switchSceneStart);
+    }
+    private void intro(){
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(2000));
+        fadeTransition.setNode(buttonsPane);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1);
+        fadeTransition.play();
     }
 }
