@@ -5,7 +5,11 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import com.example.boys_net_2.animations.MoveDown;
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -96,6 +100,7 @@ public class StartScreenController implements Initializable {
         });
         fadeTransition.play();
 
+
     }
 
     @Override
@@ -111,6 +116,9 @@ public class StartScreenController implements Initializable {
         fadeTransition.setNode(buttonsPane);
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
-        fadeTransition.play();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000),buttonsPane);
+        translateTransition.setByY(30f);
+        translateTransition.setFromY(0f);
+        new ParallelTransition(fadeTransition,translateTransition).play();
     }
 }

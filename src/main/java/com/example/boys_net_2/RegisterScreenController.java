@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,6 +119,9 @@ public class RegisterScreenController implements Initializable {
         fadeTransition.setNode(buttonsPane);
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
-        fadeTransition.play();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000),buttonsPane);
+        translateTransition.setByY(30f);
+        translateTransition.setFromY(0f);
+        new ParallelTransition(fadeTransition,translateTransition).play();
     }
 }
