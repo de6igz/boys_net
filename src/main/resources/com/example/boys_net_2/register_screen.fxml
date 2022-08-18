@@ -23,65 +23,70 @@
             <Font name="System Bold" size="83.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="buttonsPane" layoutX="32.0" layoutY="199.0">
+      <AnchorPane fx:id="buttonsPane" layoutX="220.0" layoutY="177.0" prefHeight="558.0" prefWidth="623.0">
          <children>
-            <Button fx:id="registerButton" layoutX="763.0" layoutY="83.0" mnemonicParsing="false" prefHeight="299.0" prefWidth="216.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="REGISTER" textFill="#fbf3e6">
+            <Button fx:id="registerButton" layoutX="233.0" layoutY="495.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="222.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Зарегистрироваться" textFill="#fbf3e6">
                <font>
-                  <Font name="Serif Bold" size="22.0" />
+                  <Font name="Serif Bold" size="20.0" />
                </font>
             </Button>
-            <TextField fx:id="nameField" alignment="CENTER" layoutX="262.0" layoutY="83.0" prefHeight="51.0" prefWidth="188.0" promptText="Имя" style="-fx-background-color: black; -fx-background-radius: 30;">
+            <TextField fx:id="nameField" alignment="CENTER" layoutX="247.0" layoutY="83.0" prefHeight="51.0" prefWidth="188.0" promptText="Имя" style="-fx-background-color: black; -fx-background-radius: 30;">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </TextField>
-            <TextField fx:id="surnameField" alignment="CENTER" layoutX="262.0" layoutY="160.0" prefHeight="51.0" prefWidth="188.0" promptText="Фамилия" style="-fx-background-color: black; -fx-background-radius: 30;">
+            <TextField fx:id="surnameField" alignment="CENTER" layoutX="247.0" layoutY="161.0" prefHeight="51.0" prefWidth="188.0" promptText="Фамилия" style="-fx-background-color: black; -fx-background-radius: 30;">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </TextField>
-            <TextField fx:id="loginField" alignment="CENTER" layoutX="262.0" layoutY="230.0" prefHeight="51.0" prefWidth="188.0" promptText="Логин" style="-fx-background-color: black; -fx-background-radius: 30;">
+            <TextField fx:id="loginField" alignment="CENTER" layoutX="250.0" layoutY="228.0" prefHeight="51.0" prefWidth="188.0" promptText="Логин" style="-fx-background-color: black; -fx-background-radius: 30;">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="265.0" layoutY="306.0" prefHeight="51.0" prefWidth="182.0" promptText="Пароль" style="-fx-background-color: black; -fx-background-radius: 30;">
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="253.0" layoutY="306.0" prefHeight="51.0" prefWidth="182.0" promptText="Пароль" style="-fx-background-color: black; -fx-background-radius: 30;">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </PasswordField>
-            <RadioButton fx:id="radButtonMale" layoutX="279.0" layoutY="465.0" mnemonicParsing="false">
-               <toggleGroup>
-                  <ToggleGroup fx:id="gender" />
-               </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="radButtonFemale" layoutX="431.0" layoutY="466.0" mnemonicParsing="false" toggleGroup="$gender" />
-            <Label fx:id="boysNetLabel1" layoutX="250.0" layoutY="400.0" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
+            <Label fx:id="boysNetLabel1" layoutX="226.0" layoutY="375.0" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
                <font>
                   <Font name="Serif Bold" size="28.0" />
                </font>
             </Label>
-            <Label fx:id="boysNetLabel11" layoutX="391.0" layoutY="400.0" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
+            <Label fx:id="boysNetLabel11" layoutX="367.0" layoutY="375.0" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
                <font>
                   <Font name="Serif Bold" size="28.0" />
                </font>
             </Label>
-            <Label fx:id="boysNetLabel12" layoutX="253.0" layoutY="406.0" opacity="0.19" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
+            <Label fx:id="boysNetLabel12" layoutX="229.0" layoutY="381.0" opacity="0.19" prefHeight="74.0" prefWidth="91.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="MALE">
                <font>
                   <Font name="Serif Bold" size="28.0" />
                </font>
             </Label>
-            <Label fx:id="boysNetLabel111" layoutX="394.0" layoutY="406.0" opacity="0.19" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
+            <Label fx:id="boysNetLabel111" layoutX="370.0" layoutY="381.0" opacity="0.19" prefHeight="74.0" prefWidth="112.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="FEMALE">
                <font>
                   <Font name="Serif Bold" size="28.0" />
                </font>
             </Label>
-            <Button fx:id="backButton" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Назад" textFill="#fbf3e6">
+            <Button fx:id="backButton" layoutX="-151.0" layoutY="6.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Назад" textFill="#fbf3e6">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Button>
+            <RadioButton fx:id="radButtonMale" layoutX="309.0" layoutY="404.0" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="gender" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radButtonFemale" layoutX="482.0" layoutY="404.0" mnemonicParsing="false" toggleGroup="$gender" />
          </children>
       </AnchorPane>
+      <Label fx:id="succesLabel" disable="true" layoutX="154.0" layoutY="332.0" opacity="0.0" prefHeight="136.0" prefWidth="1064.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="Регистрация Успешна">
+         <font>
+            <Font name="Serif Bold" size="83.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

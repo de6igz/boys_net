@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import com.example.boys_net_2.animations.MoveDown;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.Transition;
@@ -108,6 +108,7 @@ public class StartScreenController implements Initializable {
         intro();
         loginButton.setOnAction(this::switchSceneLogin);
         registerButton.setOnAction(this::switchSceneRegister);
+
     }
     private void intro(){
 
