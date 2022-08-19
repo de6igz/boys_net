@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fbf3e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boys_net_2.StartScreenController">
+<AnchorPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fbf3e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boys_net_2.Other.WarningScreen">
    <children>
-      <Line endX="1072.0" layoutX="128.0" layoutY="173.0" startX="-127.0" strokeWidth="10.0" />
-      <Label fx:id="boysNetLabel" layoutX="394.0" layoutY="26.0" prefHeight="136.0" prefWidth="473.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
+      <Line endX="1072.0" layoutX="-372.0" layoutY="158.0" scaleX="0.17" startX="-127.0" strokeWidth="10.0" />
+      <Label fx:id="warningLabel" layoutX="14.0" layoutY="55.0" prefHeight="91.0" prefWidth="200.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="Warning text" textAlignment="CENTER" textFill="RED">
          <font>
-            <Font name="Serif Bold" size="83.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="boysNetLabelShadow" layoutX="400.0" layoutY="26.0" opacity="0.4" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
-         <font>
-            <Font name="System Bold" size="83.0" />
-         </font>
-      </Label>
-      <AnchorPane fx:id="buttonsPane" layoutX="497.0" layoutY="369.0">
-         <children>
-            <Button fx:id="loginButton" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="LOGIN" textFill="#fbf3e6">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Button>
-            <Button fx:id="registerButton" layoutX="3.0" layoutY="84.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="202.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="REGISTER" textFill="#fbf3e6">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
+      <Line endX="1072.0" layoutX="-372.0" layoutY="40.0" scaleX="0.17" startX="-127.0" strokeWidth="10.0" />
+      <Text fx:id="textt" layoutX="77.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
    </children>
 </AnchorPane>

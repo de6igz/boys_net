@@ -17,13 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -88,6 +84,19 @@ public class RegisterScreenController implements Initializable {
     @FXML
     private Label succesLabel;
 
+    void warn(String text) {
+
+        Stage stage = (Stage) parentPane.getScene().getWindow();
+        Alert.AlertType type = Alert.AlertType.WARNING;
+        Alert alert = new Alert(type,"");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+
+        alert.getDialogPane().setHeaderText(text);
+        alert.showAndWait();
+
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -144,6 +153,7 @@ public class RegisterScreenController implements Initializable {
                     gender = "Male";
             }
             if (!nameField.getText().equals("") && !surnameField.getText().equals("") && !loginField.getText().equals("") && !passwordField.getText().equals("") && !gender.equals("")) {
+
                 dbHandler.SignUp(nameField.getText(), surnameField.getText(), loginField.getText(), passwordField.getText(), gender);
                 showSucces(event);
 
