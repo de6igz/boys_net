@@ -56,19 +56,7 @@ public class StartScreenController implements Initializable {
 
 
 
-    void warn(String text) {
 
-        Stage stage = (Stage) parentPane.getScene().getWindow();
-        Alert.AlertType type = Alert.AlertType.WARNING;
-        Alert alert = new Alert(type,"");
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
-
-        alert.getDialogPane().setHeaderText(text);
-        alert.showAndWait();
-
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

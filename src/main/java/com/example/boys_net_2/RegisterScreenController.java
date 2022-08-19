@@ -5,6 +5,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.example.boys_net_2.Other.DataBaseHandler;
 import javafx.animation.FadeTransition;
@@ -97,6 +99,11 @@ public class RegisterScreenController implements Initializable {
 
 
     }
+    boolean containsWrong(String regex, String text){
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(text);
+        return matcher.find();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -153,17 +160,33 @@ public class RegisterScreenController implements Initializable {
                     gender = "Male";
             }
             if (!nameField.getText().equals("") && !surnameField.getText().equals("") && !loginField.getText().equals("") && !passwordField.getText().equals("") && !gender.equals("")) {
-
-                dbHandler.SignUp(nameField.getText(), surnameField.getText(), loginField.getText(), passwordField.getText(), gender);
-                showSucces(event);
+                if (containsWrong("\\d",nameField.getText()) || nameField.getText().length()<2){
+                    warn("Имя не может содержать цифры и должно быть больше двух символов");
+                }
+                else
+                    if (containsWrong("\\d",surnameField.getText()) || surnameField.getText().length()<2){
+                    warn("Фамилия не может содержать цифры и должнф быть больше двух символов");
+                    }
+                    else
+                        if (loginField.getText().length()<6){
+                            warn("Логин должен быть не меньше 6 символов");
+                        }
+                        else
+                            if (passwordField.getText().length()<6){
+                            warn("Пароль должен быть не меньше 6 символов");
+                        }
+                            else {
+                                dbHandler.SignUp(nameField.getText(), surnameField.getText(), loginField.getText(), passwordField.getText(), gender);
+                                showSucces(event);
+                            }
 
             }
             else {
-                System.out.println("Какое-то из полей пусто");
+                warn("Все поля должны быть заполнены");
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            warn("Данный логин уже занят");
         }
     }
 
