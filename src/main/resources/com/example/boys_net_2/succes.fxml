@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fbf3e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boys_net_2.SuccesController">
+   <children>
+      <Line endX="1072.0" layoutX="128.0" layoutY="173.0" startX="-127.0" strokeWidth="10.0" />
+      <Label fx:id="boysNetLabel" layoutX="394.0" layoutY="26.0" prefHeight="136.0" prefWidth="473.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
+         <font>
+            <Font name="Serif Bold" size="83.0" />
+         </font>
+      </Label>
+      <Label fx:id="boysNetLabelShadow" layoutX="400.0" layoutY="26.0" opacity="0.4" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="BOYS NET">
+         <font>
+            <Font name="System Bold" size="83.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="buttonsPane" layoutX="371.0" layoutY="479.0" prefHeight="198.0" prefWidth="908.0">
+         <children>
+            <Label fx:id="succesLabel" layoutX="-178.0" prefHeight="136.0" prefWidth="968.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="Регистрация Успешна">
+               <font>
+                  <Font name="Serif Bold" size="83.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

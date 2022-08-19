@@ -1,13 +1,5 @@
 package com.example.boys_net_2;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.example.boys_net_2.Other.DataBaseHandler;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -16,14 +8,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterScreenController implements Initializable {
     private Stage stage;
@@ -175,10 +177,15 @@ public class RegisterScreenController implements Initializable {
                             if (passwordField.getText().length()<6){
                             warn("Пароль должен быть не меньше 6 символов");
                         }
-                            else {
-                                dbHandler.SignUp(nameField.getText(), surnameField.getText(), loginField.getText(), passwordField.getText(), gender);
-                                showSucces(event);
-                            }
+                            else
+                                if (loginField.getText().equals(passwordField.getText())){
+                                warn("Пароль должен отличаться от логина");
+
+                                }
+                                else {
+                                    dbHandler.SignUp(nameField.getText(), surnameField.getText(), loginField.getText(), passwordField.getText(), gender);
+                                    showSucces(event);
+                                }
 
             }
             else {
@@ -196,6 +203,9 @@ public class RegisterScreenController implements Initializable {
         fadeTransition.setNode(buttonsPane);
         fadeTransition.setFromValue(1);
         fadeTransition.setToValue(0);
+        AudioClip audioClip = new AudioClip(this.getClass().getResource("assets/succes_sound.mp3").toString());
+        audioClip.play();
+
         fadeTransition.setOnFinished((ActionEvent event1) -> {
             parentPane.getChildren().remove(buttonsPane);
             FadeTransition fadeTransition1 = new FadeTransition();
@@ -205,7 +215,11 @@ public class RegisterScreenController implements Initializable {
             fadeTransition1.setFromValue(0);
             fadeTransition1.setToValue(1);
             fadeTransition1.setDuration(Duration.millis(2000));
-            fadeTransition1.play();
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000),succesLabel);
+            translateTransition.setByY(30f);
+            translateTransition.setFromY(0f);
+            new ParallelTransition(fadeTransition1,translateTransition).play();
+            //fadeTransition1.play();
             fadeTransition1.setOnFinished((ActionEvent event2) -> {
                 FadeTransition fadeTransition2 = new FadeTransition();
                 fadeTransition2.setNode(succesLabel);
