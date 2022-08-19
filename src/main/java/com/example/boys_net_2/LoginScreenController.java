@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import com.example.boys_net_2.Other.DataBaseHandler;
+import com.example.boys_net_2.animations.Shake;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -15,10 +17,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,8 +56,30 @@ public class LoginScreenController implements Initializable {
     private PasswordField password_field;
 
 
+    void warn(String text) {
 
-    void switchSceneStart(ActionEvent event)  {
+        Stage stage = (Stage) parentPane.getScene().getWindow();
+        Alert.AlertType type = Alert.AlertType.WARNING;
+        Alert alert = new Alert(type,"");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+
+        alert.getDialogPane().setHeaderText(text);
+        alert.showAndWait();
+
+
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        intro();
+        backButton.setOnAction(this::switchSceneStart);
+        authentificatorButton.setOnAction((event -> {
+            login();
+        }));
+    }
+
+    private void switchSceneStart(ActionEvent event)  {
         try {
             root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login_register_screen.fxml")));
         } catch (IOException e) {
@@ -74,13 +101,6 @@ public class LoginScreenController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        intro();
-        backButton.setOnAction(this::switchSceneStart);
-    }
-
     private void intro(){
 
         FadeTransition fadeTransition = new FadeTransition();
@@ -94,4 +114,33 @@ public class LoginScreenController implements Initializable {
         new ParallelTransition(fadeTransition,translateTransition).play();
 
     }
+
+    void login(){
+        String loginText = login_field.getText().trim();
+        String passwordText = password_field.getText().trim();
+        if (!loginText.equals("") && !passwordText.equals("")){
+            if (loginUser(loginText,passwordText)){
+                warn("Работает, но дальше не сделал еще");
+            }
+        }
+        else
+            warn("Нужно заполнить оба поля");
+
+    }
+
+    private boolean loginUser(String login , String password)  {
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        if (dataBaseHandler.logIn(login, password))
+            return true;
+        else{
+            Shake userLogin = new Shake(login_field);
+            Shake passwordField = new Shake(password_field);
+            AudioClip audioClip = new AudioClip(this.getClass().getResource("assets/wrongLogin_sound.mp3").toString());
+            audioClip.play();
+            userLogin.playAnim();
+            passwordField.playAnim();
+            return false;
+        }
+    }
+
 }
