@@ -9,4 +9,6 @@ public class Const {
     public static final String password = "password";
     public static final String gender = "gender";
 
+    public static String realLogin ="";
+
 }
