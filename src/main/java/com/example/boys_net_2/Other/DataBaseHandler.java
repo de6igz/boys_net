@@ -1,12 +1,16 @@
 package com.example.boys_net_2.Other;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.*;
 
 public class DataBaseHandler {
-    Connection getDbConnect() {
+    public Connection getDbConnect() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RHTsMJoorw", "RHTsMJoorw", "kVk4kiaycF");
@@ -51,6 +55,35 @@ public class DataBaseHandler {
         }
         return null;
     }
+
+   public void checkFriends(String login, AnchorPane pane){
+        String select = "SELECT user2 FROM " + Const.FRIENDS_TABLE + " WHERE " + "user1" + "=" + "'" +login+ "'";
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            double y = 132;
+            while (resultSet.next()){
+                y+=15;
+                String friendName = getProfileName(resultSet.getString("user2"));
+                String friendSurname = getProfileSurname(resultSet.getString("user2"));
+                Label friendNameLabel = new Label(friendName);
+                friendNameLabel.setFont(Font.font("VAG World Bold"));
+                friendNameLabel.resize(300,300);
+                friendNameLabel.setLayoutX(29);
+
+                friendNameLabel.setLayoutY(y);
+                Label friendSurnameLabel = new Label(friendSurname);
+                friendSurnameLabel.setLayoutX(167);
+                friendSurnameLabel.setLayoutY(y);
+                pane.getChildren().add(friendNameLabel);
+                pane.getChildren().add(friendSurnameLabel);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public void SignUp(String name, String surname,
                        String login, String password,

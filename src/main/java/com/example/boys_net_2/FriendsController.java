@@ -5,20 +5,22 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import javafx.animation.FadeTransition;
+import com.example.boys_net_2.Other.Const;
+import com.example.boys_net_2.Other.DataBaseHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class MenuScreenController implements Initializable {
+public class FriendsController implements Initializable {
 
     private Stage stage;
     private Scene scene;
@@ -37,33 +39,39 @@ public class MenuScreenController implements Initializable {
     private ImageView messageIcon;
 
     @FXML
+    private Label nameLabel;
+
+    @FXML
+    private AnchorPane FIOpane;
+    @FXML
     private AnchorPane parentPane;
 
     @FXML
     private ImageView profileIcon;
 
+    @FXML
+    private Label surnameLabel;
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        intro();
+
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
-        friendsIcon.setOnMouseClicked((this::switchSceneFriends));
-
-    }
-    private void intro(){
-
-        FadeTransition fadeTransition = new FadeTransition();
-        fadeTransition.setDuration(Duration.millis(2000));
-        fadeTransition.setNode(parentPane);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-        fadeTransition.play();
+       updatePage();
     }
 
+    void updatePage(){
+
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        scene = FIOpane.getScene();
+        dataBaseHandler.checkFriends(Const.realLogin,FIOpane);
+
+        //FIOpane.getChildren().add(new Label("hello"));
+    }
     void cursorOnFriends(){
         friendsIcon.setOnMouseEntered(mouseEvent -> {
             friendsIcon.setOpacity(0.3);
@@ -90,20 +98,9 @@ public class MenuScreenController implements Initializable {
             profileIcon.setOpacity(1);
         });
     }
-
     void switchSceneProfile(MouseEvent event){
         try {
-            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-    }
-    void switchSceneFriends(MouseEvent event){
-        try {
-            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("friends.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
