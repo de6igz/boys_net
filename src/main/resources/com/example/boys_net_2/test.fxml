@@ -58,6 +58,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <Pane fx:id="searchPane" disable="true" prefWidth="420.0" />
+      <Pane fx:id="searchPane" disable="true" />
    </children>
 </AnchorPane>

@@ -2,7 +2,7 @@ package com.example.boys_net_2;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListIterator;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -19,10 +19,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class FriendsController implements Initializable {
+public class FriendProfileController implements Initializable {
 
     private Stage stage;
     private Scene scene;
@@ -35,6 +35,9 @@ public class FriendsController implements Initializable {
     private URL location;
 
     @FXML
+    private Button addFriendButton;
+
+    @FXML
     private ImageView friendsIcon;
 
     @FXML
@@ -44,83 +47,41 @@ public class FriendsController implements Initializable {
     private Label nameLabel;
 
     @FXML
-    private AnchorPane FIOpane;
-    @FXML
     private AnchorPane parentPane;
+
+    @FXML
+    private BorderPane photoBorder;
 
     @FXML
     private ImageView profileIcon;
 
     @FXML
+    private ImageView profilePhoto;
+
+    @FXML
     private Label surnameLabel;
-
-    @FXML
-    private ImageView searchIcon;
-    @FXML
-    private AnchorPane nameSurnamePane;
-    @FXML
-    private Pane searchPane;
-
-    @FXML
-    private Button addFriend;
-
-    static String nameToGo ="";
-    static String surnameToGo ="";
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+        updatePage();
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
-        cursorOnSearch();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
-        searchIcon.setOnMouseClicked((this::showAllUsers));
-        searchPane.setOnMouseClicked((event1 -> {
-            Pane pane  = (Pane) event1.getPickResult().getIntersectedNode();
-            ListIterator<Node> listIterator= pane.getChildren().listIterator();
-            Label nameLabel = (Label) listIterator.next();
-            String name = String.valueOf(nameLabel.getText());
-            Label surnameLabel = (Label) listIterator.next();
-            String surname = String.valueOf(surnameLabel.getText());
-            nameToGo = name;
-            surnameToGo = surname;
-            //System.out.println(pane.getChildren());
-            //System.out.println("Имя = " + name + " Фамилия: " + surname);
-            try {
-                root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("friendProfile.fxml")));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            stage = (Stage) ((Node)event1.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-
-        }));
-        updatePage();
+        friendsIcon.setOnMouseClicked((this::switchSceneFriends));
     }
 
+    void updatePage(){
 
-
-
-    private void showAllUsers(MouseEvent event) {
-
-
-        nameSurnamePane.setDisable(true);
-        nameSurnamePane.setOpacity(0);
-        new DataBaseHandler().showAllUsers(searchPane);
-
-    }
-
-    public void updatePage(){
-
-        DataBaseHandler dataBaseHandler = new DataBaseHandler();
-        dataBaseHandler.checkFriends(Const.realLogin,nameSurnamePane);
-
-
+        try {
+            String friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo,FriendsController.surnameToGo);
+            nameLabel.setText(new DataBaseHandler().getProfileName(friendLogin));
+            surnameLabel.setText(new DataBaseHandler().getProfileSurname(friendLogin));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     void cursorOnFriends(){
@@ -132,14 +93,7 @@ public class FriendsController implements Initializable {
         });
     }
 
-    void cursorOnSearch(){
-        searchIcon.setOnMouseEntered(mouseEvent -> {
-            searchIcon.setOpacity(0.3);
-        });
-        searchIcon.setOnMouseExited(mouseEvent -> {
-            searchIcon.setOpacity(1);
-        });
-    }
+
 
     void cursorOnMessage(){
         messageIcon.setOnMouseEntered(mouseEvent -> {
@@ -168,5 +122,15 @@ public class FriendsController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
-}
+    void switchSceneFriends(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("friends.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
 
+}
