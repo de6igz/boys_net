@@ -17,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class FriendsController implements Initializable {
@@ -57,20 +56,20 @@ public class FriendsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
-       updatePage();
+        updatePage();
     }
 
-    void updatePage(){
-
+    public void updatePage(){
+        System.out.println(nameLabel.getLayoutY());
         DataBaseHandler dataBaseHandler = new DataBaseHandler();
-        scene = FIOpane.getScene();
         dataBaseHandler.checkFriends(Const.realLogin,FIOpane);
 
-        //FIOpane.getChildren().add(new Label("hello"));
+
     }
     void cursorOnFriends(){
         friendsIcon.setOnMouseEntered(mouseEvent -> {
@@ -109,3 +108,4 @@ public class FriendsController implements Initializable {
         stage.setScene(scene);
     }
 }
+

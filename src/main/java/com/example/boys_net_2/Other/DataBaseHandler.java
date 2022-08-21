@@ -7,6 +7,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class DataBaseHandler {
@@ -61,18 +63,21 @@ public class DataBaseHandler {
         try {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
-            double y = 132;
+            double y = 62;
             while (resultSet.next()){
-                y+=15;
+                y+=25;
                 String friendName = getProfileName(resultSet.getString("user2"));
                 String friendSurname = getProfileSurname(resultSet.getString("user2"));
                 Label friendNameLabel = new Label(friendName);
-                friendNameLabel.setFont(Font.font("VAG World Bold"));
-                friendNameLabel.resize(300,300);
+                friendNameLabel.setFont(new Font("VAG World Bold",18));
                 friendNameLabel.setLayoutX(29);
+
+
+
 
                 friendNameLabel.setLayoutY(y);
                 Label friendSurnameLabel = new Label(friendSurname);
+                friendSurnameLabel.setFont(new Font("VAG World Bold",18));
                 friendSurnameLabel.setLayoutX(167);
                 friendSurnameLabel.setLayoutY(y);
                 pane.getChildren().add(friendNameLabel);
