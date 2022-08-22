@@ -58,44 +58,6 @@ public class DataBaseHandler {
 
 
 
-   public void checkFriends(String login, AnchorPane pane){
-        String select = "SELECT user2 FROM " + Const.FRIENDS_TABLE + " WHERE " + "user1" + "=" + "'" +login+ "'";
-        try {
-            Statement statement = getDbConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(select);
-            double y = 62;
-            while (resultSet.next()){
-                y+=25;
-                String friendName = getProfileName(resultSet.getString("user2"));
-                String friendSurname = getProfileSurname(resultSet.getString("user2"));
-                Label friendNameLabel = new Label(friendName);
-                friendNameLabel.setFont(new Font("VAG World Bold",18));
-                friendNameLabel.setLayoutX(29);
-                friendNameLabel.setLayoutY(y);
-                friendNameLabel.setId("text");
-
-                Label friendSurnameLabel = new Label(friendSurname);
-                friendSurnameLabel.setFont(new Font("VAG World Bold",18));
-                friendSurnameLabel.setLayoutX(167);
-                friendSurnameLabel.setLayoutY(y);
-                Button deleteButton = new Button("Удалить");
-                deleteButton.setLayoutX(260);
-                deleteButton.setLayoutY(y);
-                deleteButton.setStyle("-fx-background-color: black");
-                deleteButton.setStyle("-fx-border-radius:30");
-
-//                DataBaseHandler.nameSurnameFriends.put(friendNameLabel,friendSurnameLabel);
-                pane.getChildren().add(friendNameLabel);
-                pane.getChildren().add(friendSurnameLabel);
-                pane.getChildren().add(deleteButton);
-            }
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
 
     public void SignUp(String name, String surname,
                        String login, String password,
@@ -136,64 +98,6 @@ public class DataBaseHandler {
                 return true;
             else
                 return false;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void showAllUsers(Pane pane){
-        String select = "SELECT name,surname FROM " + Const.USERS_TABLE;
-        try {
-            Statement statement = getDbConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(select);
-            pane.setDisable(false);
-            double y = 150;
-            double xName = 29;
-            double xSurname=167;
-            while (resultSet.next()){
-                String friendName = resultSet.getString("name");
-                String friendSurname = resultSet.getString("surname");
-                if (friendName.equals(Const.myName) && friendSurname.equals(Const.mySurname))
-                    continue;
-                else {
-                    y += 50;
-                    Label friendNameLabel = new Label(friendName);
-                    Label friendSurnameLabel = new Label(friendSurname);
-                    Pane tempPane = new Pane(friendNameLabel, friendSurnameLabel);
-                    friendNameLabel.setFont(new Font("VAG World Bold", 18));
-                    //friendNameLabel.setLayoutX(xName);
-                    //friendNameLabel.setLayoutY(y);
-
-
-                    friendSurnameLabel.setFont(new Font("VAG World Bold", 18));
-                    friendSurnameLabel.setLayoutX(xSurname);
-                    //friendSurnameLabel.setLayoutY(y);
-
-                /*Button addFriend = new Button("Добавить в друзья");
-                addFriend.setLayoutX(xName+230);
-                addFriend.setLayoutY(y);
-                pane.getChildren().add(addFriend);*/
-
-
-                    //pane.getChildren().add(friendNameLabel);
-                    //pane.getChildren().add(friendSurnameLabel);
-
-                    tempPane.setPrefHeight(40);
-                    tempPane.setPrefWidth(300);
-
-                    tempPane.setLayoutX(xName);
-                    tempPane.setLayoutY(y);
-                    tempPane.setStyle("-fx-border-color: black");
-                    pane.getChildren().add(tempPane);
-                    if (y >= 462) {
-                        y = 150;
-                        xName += 350;
-                        xSurname += 350;
-                    }
-                }
-
-            }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -296,6 +200,134 @@ public class DataBaseHandler {
         }
     }
 
+    public void showFriendRequests(int myId,Pane pane){
+        if (doIhaveFriendRequest(Const.myID)){
+            System.out.println(myId);
+            String select = "SELECT fromWho FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho="+myId;
+            try {
+                int id =-1;
+                Statement statement = getDbConnect().createStatement();
+                ResultSet resultSetIds = statement.executeQuery(select);
+                double y =62;
+                while (resultSetIds.next()){
+                    y+=25;
+                    id=resultSetIds.getInt(1);
+                    String select1 = "SELECT name,surname FROM " + Const.USERS_TABLE + " WHERE id=" + id;
+                    Statement statement1 = getDbConnect().createStatement();
+                    ResultSet resultSetNamesSurnames = statement1.executeQuery(select1);
+                    if (resultSetNamesSurnames.next()){
+                        String friendName = resultSetNamesSurnames.getString(1);
+                        String friendSurname = resultSetNamesSurnames.getString(2);
+                        Label friendNameLabel = new Label(friendName);
+                        friendNameLabel.setFont(new Font("VAG World Bold",18));
+                        friendNameLabel.setLayoutX(29);
+                        friendNameLabel.setLayoutY(y);
+
+                        Label friendSurnameLabel = new Label(friendSurname);
+                        friendSurnameLabel.setFont(new Font("VAG World Bold",18));
+                        friendSurnameLabel.setLayoutX(167);
+                        friendSurnameLabel.setLayoutY(y);
+
+                        Button addButton = new Button("Добавить");
+                        addButton.setLayoutX(260);
+                        addButton.setLayoutY(y);
+
+                        pane.getChildren().add(friendNameLabel);
+                        pane.getChildren().add(friendSurnameLabel);
+                        pane.getChildren().add(addButton);
+
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    public void showAllUsers(Pane pane){
+        String select = "SELECT name,surname FROM " + Const.USERS_TABLE;
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            pane.setDisable(false);
+            double y = 150;
+            double xName = 29;
+            double xSurname=167;
+            while (resultSet.next()){
+                String friendName = resultSet.getString("name");
+                String friendSurname = resultSet.getString("surname");
+                if (friendName.equals(Const.myName) && friendSurname.equals(Const.mySurname))
+                    continue;
+                else {
+                    y += 50;
+                    Label friendNameLabel = new Label(friendName);
+                    Label friendSurnameLabel = new Label(friendSurname);
+                    Pane tempPane = new Pane(friendNameLabel, friendSurnameLabel);
+                    friendNameLabel.setFont(new Font("VAG World Bold", 18));
+
+                    friendSurnameLabel.setFont(new Font("VAG World Bold", 18));
+                    friendSurnameLabel.setLayoutX(xSurname);
+
+                    tempPane.setPrefHeight(40);
+                    tempPane.setPrefWidth(300);
+
+                    tempPane.setLayoutX(xName);
+                    tempPane.setLayoutY(y);
+                    tempPane.setStyle("-fx-border-color: black");
+                    pane.getChildren().add(tempPane);
+                    if (y >= 462) {
+                        y = 150;
+                        xName += 350;
+                        xSurname += 350;
+                    }
+                }
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void checkFriends(String login, AnchorPane pane){
+        String select = "SELECT user2 FROM " + Const.FRIENDS_TABLE + " WHERE " + "user1" + "=" + "'" +login+ "'";
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            double y = 62;
+            while (resultSet.next()){
+                y+=25;
+                String friendName = getProfileName(resultSet.getString("user2"));
+                String friendSurname = getProfileSurname(resultSet.getString("user2"));
+                Label friendNameLabel = new Label(friendName);
+                friendNameLabel.setFont(new Font("VAG World Bold",18));
+                friendNameLabel.setLayoutX(29);
+                friendNameLabel.setLayoutY(y);
+                friendNameLabel.setId("text");
+
+                Label friendSurnameLabel = new Label(friendSurname);
+                friendSurnameLabel.setFont(new Font("VAG World Bold",18));
+                friendSurnameLabel.setLayoutX(167);
+                friendSurnameLabel.setLayoutY(y);
+                Button deleteButton = new Button("Удалить");
+                deleteButton.setLayoutX(260);
+                deleteButton.setLayoutY(y);
+                deleteButton.setStyle("-fx-background-color: black");
+                deleteButton.setStyle("-fx-border-radius:30");
+
+//                DataBaseHandler.nameSurnameFriends.put(friendNameLabel,friendSurnameLabel);
+                pane.getChildren().add(friendNameLabel);
+                pane.getChildren().add(friendSurnameLabel);
+                pane.getChildren().add(deleteButton);
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void sendFriendRequest(String wantToAddName, String wantToAddSurname, int idToGo){
@@ -329,5 +361,25 @@ public class DataBaseHandler {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public boolean doIhaveFriendRequest(int myId){
+        try {
+            int hereId=-1;
+            String select = "SELECT fromWho FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho="+myId;
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            if (resultSet.next()) {
+                hereId = resultSet.getInt(1);
+            }
+            if (hereId==-1)
+                return false;
+            else
+                return true;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

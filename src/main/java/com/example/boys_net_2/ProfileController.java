@@ -56,6 +56,9 @@ public class ProfileController implements Initializable {
     private ImageView profilePhoto;
 
     @FXML
+    private ImageView notificationIcon;
+
+    @FXML
     private Label surnameLabel;
 
     @FXML
@@ -67,8 +70,10 @@ public class ProfileController implements Initializable {
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
+        cursorOnNotification();
         updatePage();
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
+        notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
     }
 
     void updatePage(){
@@ -87,6 +92,15 @@ public class ProfileController implements Initializable {
         });
         friendsIcon.setOnMouseExited(mouseEvent -> {
             friendsIcon.setOpacity(1);
+        });
+    }
+
+    void cursorOnNotification(){
+        notificationIcon.setOnMouseEntered(mouseEvent -> {
+            notificationIcon.setOpacity(0.3);
+        });
+        notificationIcon.setOnMouseExited(mouseEvent -> {
+            notificationIcon.setOpacity(1);
         });
     }
 
@@ -111,6 +125,16 @@ public class ProfileController implements Initializable {
     void switchSceneFriends(MouseEvent event){
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("friends.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    void switchSceneNotifications(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

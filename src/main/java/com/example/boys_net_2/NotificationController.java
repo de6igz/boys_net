@@ -2,7 +2,6 @@ package com.example.boys_net_2;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -14,28 +13,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class FriendProfileController implements Initializable {
+public class NotificationController implements Initializable {
 
+    @FXML
+    private ResourceBundle resources;
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
     private URL location;
-
-    @FXML
-    private Button addFriendButton;
 
     @FXML
     private ImageView friendsIcon;
@@ -44,65 +37,33 @@ public class FriendProfileController implements Initializable {
     private ImageView messageIcon;
 
     @FXML
-    private Label nameLabel;
+    private ImageView notificationIcon;
 
     @FXML
     private AnchorPane parentPane;
 
     @FXML
-    private BorderPane photoBorder;
-
-    @FXML
     private ImageView profileIcon;
-
     @FXML
-    private ImageView profilePhoto;
-
-
-    @FXML
-    private ImageView notificationIcon;
-
-    @FXML
-    private Label surnameLabel;
+    private Pane pane;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        updatePage();
+        intro();
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
         cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
-        addFriendButton.setOnMouseClicked((event -> {
-            sendFriendRequest();
-        }));
+    }
+    void intro(){
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        dataBaseHandler.showFriendRequests(Const.myID,pane);
     }
 
-    void sendFriendRequest(){
-        new DataBaseHandler().sendFriendRequest(FriendsController.nameToGo,FriendsController.surnameToGo,Const.idToGo);
-        addFriendButton.setText("Заявка отправлена");
-        addFriendButton.setDisable(true);
-    }
-
-    void updatePage(){
-
-        try {
-            String friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo,FriendsController.surnameToGo);
-            nameLabel.setText(new DataBaseHandler().getProfileName(friendLogin));
-            surnameLabel.setText(new DataBaseHandler().getProfileSurname(friendLogin));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (new DataBaseHandler().isFriendRequestSend(Const.myID,Const.idToGo)){
-            addFriendButton.setText("Заявка отправлена");
-            addFriendButton.setDisable(true);
-        }
-
-
-    }
     void cursorOnFriends(){
         friendsIcon.setOnMouseEntered(mouseEvent -> {
             friendsIcon.setOpacity(0.3);
@@ -111,17 +72,6 @@ public class FriendProfileController implements Initializable {
             friendsIcon.setOpacity(1);
         });
     }
-
-    void cursorOnNotification(){
-        notificationIcon.setOnMouseEntered(mouseEvent -> {
-            notificationIcon.setOpacity(0.3);
-        });
-        notificationIcon.setOnMouseExited(mouseEvent -> {
-            notificationIcon.setOpacity(1);
-        });
-    }
-
-
 
     void cursorOnMessage(){
         messageIcon.setOnMouseEntered(mouseEvent -> {
@@ -138,6 +88,15 @@ public class FriendProfileController implements Initializable {
         });
         profileIcon.setOnMouseExited(mouseEvent -> {
             profileIcon.setOpacity(1);
+        });
+    }
+
+    void cursorOnNotification(){
+        notificationIcon.setOnMouseEntered(mouseEvent -> {
+            notificationIcon.setOpacity(0.3);
+        });
+        notificationIcon.setOnMouseExited(mouseEvent -> {
+            notificationIcon.setOpacity(1);
         });
     }
     void switchSceneProfile(MouseEvent event){
@@ -160,15 +119,4 @@ public class FriendProfileController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
-    void switchSceneNotifications(MouseEvent event){
-        try {
-            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-    }
-
 }

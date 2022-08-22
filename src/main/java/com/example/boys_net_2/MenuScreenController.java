@@ -42,6 +42,9 @@ public class MenuScreenController implements Initializable {
     @FXML
     private ImageView profileIcon;
 
+    @FXML
+    private ImageView notificationIcon;
+
 
 
     @Override
@@ -50,8 +53,10 @@ public class MenuScreenController implements Initializable {
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
+        cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
+        notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
 
     }
     private void intro(){
@@ -91,6 +96,15 @@ public class MenuScreenController implements Initializable {
         });
     }
 
+    void cursorOnNotification(){
+        notificationIcon.setOnMouseEntered(mouseEvent -> {
+            notificationIcon.setOpacity(0.3);
+        });
+        notificationIcon.setOnMouseExited(mouseEvent -> {
+            notificationIcon.setOpacity(1);
+        });
+    }
+
     void switchSceneProfile(MouseEvent event){
         try {
             root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
@@ -111,4 +125,15 @@ public class MenuScreenController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
+    void switchSceneNotifications(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+
 }

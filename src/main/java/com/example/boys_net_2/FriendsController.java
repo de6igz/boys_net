@@ -56,6 +56,10 @@ public class FriendsController implements Initializable {
 
     @FXML
     private ImageView searchIcon;
+
+
+    @FXML
+    private ImageView notificationIcon;
     @FXML
     private AnchorPane nameSurnamePane;
     @FXML
@@ -78,6 +82,7 @@ public class FriendsController implements Initializable {
         cursorOnMessage();
         cursorOnProfile();
         cursorOnSearch();
+        cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         searchIcon.setOnMouseClicked((this::showAllUsers));
         searchPane.setOnMouseClicked((event1 -> {
@@ -102,6 +107,7 @@ public class FriendsController implements Initializable {
             stage.setScene(scene);
 
         }));
+        notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
         updatePage();
     }
 
@@ -134,6 +140,15 @@ public class FriendsController implements Initializable {
         });
     }
 
+    void cursorOnNotification(){
+        notificationIcon.setOnMouseEntered(mouseEvent -> {
+            notificationIcon.setOpacity(0.3);
+        });
+        notificationIcon.setOnMouseExited(mouseEvent -> {
+            notificationIcon.setOpacity(1);
+        });
+    }
+
     void cursorOnSearch(){
         searchIcon.setOnMouseEntered(mouseEvent -> {
             searchIcon.setOpacity(0.3);
@@ -163,6 +178,16 @@ public class FriendsController implements Initializable {
     void switchSceneProfile(MouseEvent event){
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    void switchSceneNotifications(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
