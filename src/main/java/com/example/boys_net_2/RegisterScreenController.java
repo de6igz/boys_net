@@ -194,6 +194,7 @@ public class RegisterScreenController implements Initializable {
 
         } catch (SQLException e) {
             warn("Данный логин уже занят");
+            e.printStackTrace();
         }
     }
 

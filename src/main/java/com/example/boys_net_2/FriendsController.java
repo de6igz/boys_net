@@ -69,6 +69,7 @@ public class FriendsController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -88,6 +89,7 @@ public class FriendsController implements Initializable {
             String surname = String.valueOf(surnameLabel.getText());
             nameToGo = name;
             surnameToGo = surname;
+            Const.idToGo= new DataBaseHandler().getFriendId(name,surname);
             //System.out.println(pane.getChildren());
             //System.out.println("Имя = " + name + " Фамилия: " + surname);
             try {

@@ -71,6 +71,15 @@ public class FriendProfileController implements Initializable {
         cursorOnProfile();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
+        addFriendButton.setOnMouseClicked((event -> {
+            sendFriendRequest();
+        }));
+    }
+
+    void sendFriendRequest(){
+        new DataBaseHandler().sendFriendRequest(FriendsController.nameToGo,FriendsController.surnameToGo,Const.idToGo);
+        addFriendButton.setText("Заявка отправлена");
+        addFriendButton.setDisable(true);
     }
 
     void updatePage(){
@@ -82,6 +91,11 @@ public class FriendProfileController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        if (new DataBaseHandler().isFriendRequestSend(Const.myID,Const.idToGo)){
+            addFriendButton.setText("Заявка отправлена");
+            addFriendButton.setDisable(true);
+        }
+
 
     }
     void cursorOnFriends(){
