@@ -2,6 +2,7 @@ package com.example.boys_net_2;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ListIterator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +49,9 @@ public class NotificationController implements Initializable {
     @FXML
     private Pane pane;
 
+    @FXML
+    private Label helpLabel;
+
 
 
     @Override
@@ -58,7 +63,28 @@ public class NotificationController implements Initializable {
         cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
+        pane.setOnMouseClicked((event -> {
+            Pane temppane  = (Pane) event.getPickResult().getIntersectedNode();
+            ListIterator<Node> listIterator= temppane.getChildren().listIterator();
+            Label name = (Label) listIterator.next();
+            Label surname = (Label) listIterator.next();
+            DataBaseHandler dataBaseHandler = new DataBaseHandler();
+            int id = dataBaseHandler.getFriendId(name.getText().trim(),surname.getText().trim());
+            dataBaseHandler.addFriend(id);
+            dataBaseHandler.deleteFriendRequest(id);
+
+
+
+
+
+
+
+        }));
+
+
     }
+
+
     void intro(){
         DataBaseHandler dataBaseHandler = new DataBaseHandler();
         dataBaseHandler.showFriendRequests(Const.myID,pane);

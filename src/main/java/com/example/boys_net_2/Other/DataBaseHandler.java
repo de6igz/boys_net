@@ -208,9 +208,11 @@ public class DataBaseHandler {
                 int id =-1;
                 Statement statement = getDbConnect().createStatement();
                 ResultSet resultSetIds = statement.executeQuery(select);
-                double y =62;
+                double y = 30;
+                double xName = 35;
+                double xSurname=167;
                 while (resultSetIds.next()){
-                    y+=25;
+                    y+=50;
                     id=resultSetIds.getInt(1);
                     String select1 = "SELECT name,surname FROM " + Const.USERS_TABLE + " WHERE id=" + id;
                     Statement statement1 = getDbConnect().createStatement();
@@ -219,22 +221,44 @@ public class DataBaseHandler {
                         String friendName = resultSetNamesSurnames.getString(1);
                         String friendSurname = resultSetNamesSurnames.getString(2);
                         Label friendNameLabel = new Label(friendName);
-                        friendNameLabel.setFont(new Font("VAG World Bold",18));
-                        friendNameLabel.setLayoutX(29);
-                        friendNameLabel.setLayoutY(y);
-
                         Label friendSurnameLabel = new Label(friendSurname);
-                        friendSurnameLabel.setFont(new Font("VAG World Bold",18));
-                        friendSurnameLabel.setLayoutX(167);
-                        friendSurnameLabel.setLayoutY(y);
+                        //Button addButton = new Button("Добавить");
+                        friendNameLabel.setDisable(true);
+                        friendSurnameLabel.setDisable(true);
+                        Pane tempPane = new Pane(friendNameLabel, friendSurnameLabel);
+                        friendNameLabel.setLayoutX(10);
+                        //addButton.setLayoutX(tempPane.getLayoutX()+230);
+                        //addButton.setLayoutY(tempPane.getLayoutY()+5);
+                        friendNameLabel.setFont(new Font("VAG World Bold", 18));
 
-                        Button addButton = new Button("Добавить");
-                        addButton.setLayoutX(260);
-                        addButton.setLayoutY(y);
+                        friendSurnameLabel.setFont(new Font("VAG World Bold", 18));
+                        friendSurnameLabel.setLayoutX(xSurname);
 
-                        pane.getChildren().add(friendNameLabel);
-                        pane.getChildren().add(friendSurnameLabel);
-                        pane.getChildren().add(addButton);
+                        tempPane.setPrefHeight(40);
+                        tempPane.setPrefWidth(450);
+                        tempPane.setLayoutX(xName);
+                        tempPane.setLayoutY(y);
+                        tempPane.setStyle("-fx-border-color: black");
+
+                        Label addButton = new Label("Добавить");
+                        addButton.setFont(new Font("VAG World Bold", 18));
+                        addButton.setDisable(true);
+                        addButton.setLayoutX(300);
+
+                        //paneButton.setPrefHeight(40);
+                        tempPane.getChildren().add(addButton);
+                        //paneButton.setPrefWidth(100);
+                        //paneButton.setLayoutX(tempPane.getLayoutX()+300);
+                        //paneButton.setStyle("-fx-border-color: black");
+
+
+
+                        pane.getChildren().add(tempPane);
+                        if (y >= 462) {
+                            y = 150;
+                            xName += 350;
+                            xSurname += 350;
+                        }
 
                     }
                 }
@@ -263,6 +287,8 @@ public class DataBaseHandler {
                     y += 50;
                     Label friendNameLabel = new Label(friendName);
                     Label friendSurnameLabel = new Label(friendSurname);
+                    friendNameLabel.setDisable(true);
+                    friendSurnameLabel.setDisable(true);
                     Pane tempPane = new Pane(friendNameLabel, friendSurnameLabel);
                     friendNameLabel.setFont(new Font("VAG World Bold", 18));
 
@@ -285,6 +311,32 @@ public class DataBaseHandler {
 
             }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void addFriend(int id){
+        String insert1 = "INSERT INTO " + Const.FRIENDS_TABLE + "(user1,user2) " + "VALUES(" + "'" +getLogin(id) + "'" + ","+"'" +Const.realLogin + "'" + ")";
+        String insert2 = "INSERT INTO " + Const.FRIENDS_TABLE + "(user1,user2) " + "VALUES(" +"'"+ Const.realLogin+"'"+"," + "'"+getLogin(id)+"'"+    ")";
+        try {
+            Statement statement = getDbConnect().createStatement();
+            statement.executeUpdate(insert1);
+            statement.executeUpdate(insert2);
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public String getLogin(int id){
+        String select = "SELECT login from " + Const.USERS_TABLE + " WHERE id=" + id;
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            if (resultSet.next())
+                return resultSet.getString(1);
+            else
+                return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -340,6 +392,16 @@ public class DataBaseHandler {
             throw new RuntimeException(e);
         }
 
+
+    }
+    public void deleteFriendRequest(int id){
+        String delete = "DELETE FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho=" +Const.myID + "AND fromWho=" + id;
+        try {
+            Statement statement = getDbConnect().createStatement();
+            statement.executeUpdate(delete);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
