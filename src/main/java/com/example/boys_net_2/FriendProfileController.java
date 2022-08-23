@@ -76,6 +76,8 @@ public class FriendProfileController implements Initializable {
         cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
+        messageIcon.setOnMouseClicked(this::switchSceneMessage);
+        notificationIcon.setOnMouseClicked(this::switchSceneNotifications);
         addFriendButton.setOnMouseClicked((event -> {
             sendFriendRequest();
         }));
@@ -163,6 +165,16 @@ public class FriendProfileController implements Initializable {
     void switchSceneNotifications(MouseEvent event){
         try {
             root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    void switchSceneMessage(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("message.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

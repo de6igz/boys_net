@@ -8,6 +8,7 @@ module com.example.boys_net_2 {
     requires java.sql;
     requires javafx.base;
     requires javafx.media;
+    requires org.apache.commons.net;
 
     opens com.example.boys_net_2 to javafx.fxml;
     exports com.example.boys_net_2;

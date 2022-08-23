@@ -1,6 +1,5 @@
 package com.example.boys_net_2.Other;
 
-import com.example.boys_net_2.FriendsController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +12,7 @@ public class DataBaseHandler {
     public Connection getDbConnect() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RHTsMJoorw", "RHTsMJoorw", "kVk4kiaycF");
+            connection = DriverManager.getConnection("jdbc:mysql://31.31.198.106:3306/u1768436_boysnet", "u1768436_user", "root12345678");
             return connection;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -395,7 +394,7 @@ public class DataBaseHandler {
 
     }
     public void deleteFriendRequest(int id){
-        String delete = "DELETE FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho=" +Const.myID + "AND fromWho=" + id;
+        String delete = "DELETE FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho=" +Const.myID + " AND fromWho=" + id;
         try {
             Statement statement = getDbConnect().createStatement();
             statement.executeUpdate(delete);
@@ -443,5 +442,31 @@ public class DataBaseHandler {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void insertPhotoLocation(){
+        String UPDATE = "UPDATE " + Const.USERS_TABLE + " SET photolocation = " + "'"+Const.realLogin+"profilePhoto' " +"WHERE login = " + "'"+Const.realLogin+"'";
+        try {
+            Statement statement = getDbConnect().createStatement();
+            statement.executeUpdate(UPDATE);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean doProfileHasPhoto(int id){
+        String select ="SELECT photolocation FROM " + Const.USERS_TABLE + " WHERE id="+id;
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            resultSet.next();
+                if (resultSet.getString(1) == null)
+                    return false;
+                else
+                    return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

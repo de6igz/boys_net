@@ -2,7 +2,6 @@ package com.example.boys_net_2;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListIterator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -21,22 +20,23 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class NotificationController implements Initializable {
+public class MessageController implements Initializable {
 
-    @FXML
-    private ResourceBundle resources;
+
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-    @FXML
-    private URL location;
-
     @FXML
     private ImageView friendsIcon;
 
     @FXML
     private ImageView messageIcon;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private AnchorPane nameSurnamePane;
 
     @FXML
     private ImageView notificationIcon;
@@ -46,51 +46,32 @@ public class NotificationController implements Initializable {
 
     @FXML
     private ImageView profileIcon;
-    @FXML
-    private Pane pane;
 
     @FXML
-    private Label helpLabel;
+    private Pane searchPane;
+
+    @FXML
+    private Label surnameLabel;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        intro();
+        updatePage();
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
         cursorOnNotification();
+
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         friendsIcon.setOnMouseClicked((this::switchSceneFriends));
-        messageIcon.setOnMouseClicked(this::switchSceneMessage);
-        pane.setOnMouseClicked((event -> {
-            Pane temppane  = (Pane) event.getPickResult().getIntersectedNode();
-            ListIterator<Node> listIterator= temppane.getChildren().listIterator();
-            Label name = (Label) listIterator.next();
-            Label surname = (Label) listIterator.next();
-            DataBaseHandler dataBaseHandler = new DataBaseHandler();
-            int id = dataBaseHandler.getFriendId(name.getText().trim(),surname.getText().trim());
-            dataBaseHandler.addFriend(id);
-            dataBaseHandler.deleteFriendRequest(id);
-
-
-
-
-
-
-
-        }));
-
-
+        notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
     }
 
-
-    void intro(){
+    void updatePage(){
         DataBaseHandler dataBaseHandler = new DataBaseHandler();
-        dataBaseHandler.showFriendRequests(Const.myID,pane);
+        dataBaseHandler.checkFriends(Const.realLogin,nameSurnamePane);
     }
-
     void cursorOnFriends(){
         friendsIcon.setOnMouseEntered(mouseEvent -> {
             friendsIcon.setOpacity(0.3);
@@ -99,7 +80,14 @@ public class NotificationController implements Initializable {
             friendsIcon.setOpacity(1);
         });
     }
-
+    void cursorOnNotification(){
+        notificationIcon.setOnMouseEntered(mouseEvent -> {
+            notificationIcon.setOpacity(0.3);
+        });
+        notificationIcon.setOnMouseExited(mouseEvent -> {
+            notificationIcon.setOpacity(1);
+        });
+    }
     void cursorOnMessage(){
         messageIcon.setOnMouseEntered(mouseEvent -> {
             messageIcon.setOpacity(0.3);
@@ -108,22 +96,12 @@ public class NotificationController implements Initializable {
             messageIcon.setOpacity(1);
         });
     }
-
     void cursorOnProfile(){
         profileIcon.setOnMouseEntered(mouseEvent -> {
             profileIcon.setOpacity(0.3);
         });
         profileIcon.setOnMouseExited(mouseEvent -> {
             profileIcon.setOpacity(1);
-        });
-    }
-
-    void cursorOnNotification(){
-        notificationIcon.setOnMouseEntered(mouseEvent -> {
-            notificationIcon.setOpacity(0.3);
-        });
-        notificationIcon.setOnMouseExited(mouseEvent -> {
-            notificationIcon.setOpacity(1);
         });
     }
     void switchSceneProfile(MouseEvent event){
@@ -146,9 +124,9 @@ public class NotificationController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
-    void switchSceneMessage(MouseEvent event){
+    void switchSceneNotifications(MouseEvent event){
         try {
-            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("message.fxml")));
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

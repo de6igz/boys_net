@@ -112,6 +112,7 @@ public class RegisterScreenController implements Initializable {
         intro();
         backButton.setOnAction(this::switchSceneStart);
         registerButton.setOnAction(this::register);
+
     }
 
     void switchSceneStart(ActionEvent event) {

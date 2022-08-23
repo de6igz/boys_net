@@ -85,6 +85,8 @@ public class FriendsController implements Initializable {
         cursorOnNotification();
         profileIcon.setOnMouseClicked((this::switchSceneProfile));
         searchIcon.setOnMouseClicked((this::showAllUsers));
+        messageIcon.setOnMouseClicked(this::switchSceneMessage);
+        notificationIcon.setOnMouseClicked(this::switchSceneNotifications);
         searchPane.setOnMouseClicked((event1 -> {
             Pane pane  = (Pane) event1.getPickResult().getIntersectedNode();
             ListIterator<Node> listIterator= pane.getChildren().listIterator();
@@ -106,8 +108,8 @@ public class FriendsController implements Initializable {
             scene = new Scene(root);
             stage.setScene(scene);
 
+            notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
         }));
-        notificationIcon.setOnMouseClicked((this::switchSceneNotifications));
         updatePage();
     }
 
@@ -188,6 +190,16 @@ public class FriendsController implements Initializable {
     void switchSceneNotifications(MouseEvent event){
         try {
             root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    void switchSceneMessage(MouseEvent event){
+        try {
+            root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("message.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
