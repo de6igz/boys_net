@@ -1,6 +1,6 @@
 package com.example.boys_net_2;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -16,11 +16,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 
 public class FriendProfileController implements Initializable {
 
@@ -64,6 +67,7 @@ public class FriendProfileController implements Initializable {
 
     @FXML
     private Label surnameLabel;
+     String friendLogin="";
 
 
 
@@ -90,19 +94,72 @@ public class FriendProfileController implements Initializable {
     }
 
     void updatePage(){
-
         try {
-            String friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo,FriendsController.surnameToGo);
+            downloadPhoto();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo, FriendsController.surnameToGo);
             nameLabel.setText(new DataBaseHandler().getProfileName(friendLogin));
             surnameLabel.setText(new DataBaseHandler().getProfileSurname(friendLogin));
+            if (new DataBaseHandler().doProfileHasPhoto(new DataBaseHandler().getMyId(friendLogin))) {
+                try {
+                    String path = new File("src/main/resources/userPhotos/" + friendLogin + "profilePhoto.jpg").getAbsolutePath();
+                    Image image = new Image(path);
+                    profilePhoto.setImage(image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (new DataBaseHandler().isFriendRequestSend(Const.myID, new DataBaseHandler().getMyId(friendLogin))) {
+                addFriendButton.setText("Заявка отправлена");
+                addFriendButton.setDisable(true);
+            }
+            if (new DataBaseHandler().isFriend(Const.myID,new DataBaseHandler().getMyId(friendLogin))){
+                addFriendButton.setText("Друг");
+                addFriendButton.setDisable(true);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if (new DataBaseHandler().isFriendRequestSend(Const.myID,Const.idToGo)){
-            addFriendButton.setText("Заявка отправлена");
-            addFriendButton.setDisable(true);
-        }
 
+
+    }
+    void downloadPhoto(){
+        String server = "31.31.198.106";
+        String user = "u1768436";
+        String pass = "root12345678";
+
+        FTPClient ftpClient = new FTPClient();
+        try {
+            ftpClient.connect(server);
+            ftpClient.login(user,pass);
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String remoteFile1 = Const.realLogin+"profilePhoto.jpg";
+        File downloadFile1 = new File( "src/main/resources/userPhotos/"+friendLogin+"profilePhoto.jpg");
+        OutputStream outputStream1 = null;
+        try {
+            outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
+            if (success)
+                System.out.println("Скачалось");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            outputStream1.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     void cursorOnFriends(){

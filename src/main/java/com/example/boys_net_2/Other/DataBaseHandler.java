@@ -393,27 +393,18 @@ public class DataBaseHandler {
 
 
     }
-    public void deleteFriendRequest(int id){
-        String delete = "DELETE FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho=" +Const.myID + " AND fromWho=" + id;
-        try {
-            Statement statement = getDbConnect().createStatement();
-            statement.executeUpdate(delete);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
 
     public boolean isFriendRequestSend(int myId,int friendId){
         try {
             int hereId=0;
-            String select = "SELECT toWho FROM " + Const.FRIEND_REQUESTS_TABLE;
+            String select = "SELECT toWho FROM " + Const.FRIEND_REQUESTS_TABLE+" WHERE fromWho="+myId+" AND toWho="+friendId;
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
                 hereId = resultSet.getInt(1);
             }
-            if (hereId==Const.idToGo)
+            if (hereId==friendId)
                 return true;
             else
                 return false;
@@ -422,6 +413,17 @@ public class DataBaseHandler {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void deleteFriendRequest(int myId,int friendId){
+        //DELETE FROM `friendRequest` WHERE 0
+        String delete = "DELETE FROM "+Const.FRIEND_REQUESTS_TABLE + " WHERE fromWho="+myId+ " AND toWho="+friendId;
+        try {
+            Statement statement = getDbConnect().createStatement();
+            statement.executeUpdate(delete);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public boolean doIhaveFriendRequest(int myId){
         try {
@@ -438,6 +440,22 @@ public class DataBaseHandler {
                 return true;
 
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public boolean isFriend(int myId,int friendId){
+        String select= "SELECT user1 FROM "+Const.FRIENDS_TABLE+" WHERE user1="+"'"+getLogin(myId)+"'"+" AND user2="+"'"+getLogin(friendId)+"'";
+        try {
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet =statement.executeQuery(select);
+
+            if (resultSet.next())
+                return true;
+            else
+                return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

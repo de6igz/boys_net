@@ -72,7 +72,7 @@ public class NotificationController implements Initializable {
             DataBaseHandler dataBaseHandler = new DataBaseHandler();
             int id = dataBaseHandler.getFriendId(name.getText().trim(),surname.getText().trim());
             dataBaseHandler.addFriend(id);
-            dataBaseHandler.deleteFriendRequest(id);
+            dataBaseHandler.deleteFriendRequest(Const.myID,id);
 
 
 

@@ -97,8 +97,7 @@ public class FriendsController implements Initializable {
             nameToGo = name;
             surnameToGo = surname;
             Const.idToGo= new DataBaseHandler().getFriendId(name,surname);
-            //System.out.println(pane.getChildren());
-            //System.out.println("Имя = " + name + " Фамилия: " + surname);
+
             try {
                 root =FXMLLoader.load(Objects.requireNonNull(getClass().getResource("friendProfile.fxml")));
             } catch (IOException e) {
