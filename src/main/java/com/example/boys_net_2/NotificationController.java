@@ -73,6 +73,7 @@ public class NotificationController implements Initializable {
             int id = dataBaseHandler.getFriendId(name.getText().trim(),surname.getText().trim());
             dataBaseHandler.addFriend(id);
             dataBaseHandler.deleteFriendRequest(Const.myID,id);
+            switchSceneFriends(event);
 
 
 
