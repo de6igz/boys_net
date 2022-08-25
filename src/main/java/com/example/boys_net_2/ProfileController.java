@@ -5,9 +5,13 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 import com.example.boys_net_2.Other.Const;
 import com.example.boys_net_2.Other.DataBaseHandler;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -76,7 +80,7 @@ public class ProfileController implements Initializable {
         cursorOnMessage();
         cursorOnProfile();
         cursorOnNotification();
-        updatePage();
+        service.start();
 
         uploadPhotoButton.setOnMouseClicked((event -> {
             FileChooser fileChooser = new FileChooser();
@@ -102,21 +106,17 @@ public class ProfileController implements Initializable {
             e.printStackTrace();
         }
 
-        try {
-            nameLabel.setText(new DataBaseHandler().getProfileName(Const.realLogin));
-            surnameLabel.setText(new DataBaseHandler().getProfileSurname(Const.realLogin));
-            if (new DataBaseHandler().doProfileHasPhoto(Const.myID)){
-                try{
-                    String path = new File("src/main/resources/userPhotos/"+Const.realLogin+"profilePhoto.jpg").getAbsolutePath();
-                    Image image = new Image(path);
-                    profilePhoto.setImage(image);
-                }
-                catch (Exception e){
-                   e.printStackTrace();
-                }
+        nameLabel.setText(new DataBaseHandler().getProfileName(Const.realLogin));
+        surnameLabel.setText(new DataBaseHandler().getProfileSurname(Const.realLogin));
+        if (new DataBaseHandler().doProfileHasPhoto(Const.myID)){
+            try{
+                String path = new File("src/main/resources/userPhotos/"+Const.realLogin+"profilePhoto.jpg").getAbsolutePath();
+                Image image = new Image(path);
+                profilePhoto.setImage(image);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            catch (Exception e){
+               e.printStackTrace();
+            }
         }
 
     }
@@ -271,5 +271,32 @@ public class ProfileController implements Initializable {
         }
 
     }
+    Service<Void> service = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                updatePage();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            finally {
+                                latch.countDown();
+                            }
+                        }
+                    });
+                    latch.await();
+                    return null;
+                }
+            };
+        }
+    };
 }
 

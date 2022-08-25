@@ -5,9 +5,13 @@ import java.net.URL;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 import com.example.boys_net_2.Other.Const;
 import com.example.boys_net_2.Other.DataBaseHandler;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,7 +66,7 @@ public class MessageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        updatePage();
+        service.start();
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
@@ -158,4 +162,31 @@ public class MessageController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
+    Service<Void> service = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                updatePage();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            finally {
+                                latch.countDown();
+                            }
+                        }
+                    });
+                    latch.await();
+                    return null;
+                }
+            };
+        }
+    };
 }

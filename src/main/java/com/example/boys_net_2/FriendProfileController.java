@@ -100,29 +100,25 @@ public class FriendProfileController implements Initializable {
         catch (Exception e){
             e.printStackTrace();
         }
-        try {
-            friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo, FriendsController.surnameToGo);
-            nameLabel.setText(new DataBaseHandler().getProfileName(friendLogin));
-            surnameLabel.setText(new DataBaseHandler().getProfileSurname(friendLogin));
-            if (new DataBaseHandler().doProfileHasPhoto(new DataBaseHandler().getMyId(friendLogin))) {
-                try {
-                    String path = new File("src/main/resources/userPhotos/" + friendLogin + "profilePhoto.jpg").getAbsolutePath();
-                    Image image = new Image(path);
-                    profilePhoto.setImage(image);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        friendLogin = new DataBaseHandler().getUserLogin(FriendsController.nameToGo, FriendsController.surnameToGo);
+        nameLabel.setText(new DataBaseHandler().getProfileName(friendLogin));
+        surnameLabel.setText(new DataBaseHandler().getProfileSurname(friendLogin));
+        if (new DataBaseHandler().doProfileHasPhoto(new DataBaseHandler().getMyId(friendLogin))) {
+            try {
+                String path = new File("src/main/resources/userPhotos/" + friendLogin + "profilePhoto.jpg").getAbsolutePath();
+                Image image = new Image(path);
+                profilePhoto.setImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            if (new DataBaseHandler().isFriendRequestSend(Const.myID, new DataBaseHandler().getMyId(friendLogin))) {
-                addFriendButton.setText("Заявка отправлена");
-                addFriendButton.setDisable(true);
-            }
-            if (new DataBaseHandler().isFriend(Const.myID,new DataBaseHandler().getMyId(friendLogin))){
-                addFriendButton.setText("Друг");
-                addFriendButton.setDisable(true);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        if (new DataBaseHandler().isFriendRequestSend(Const.myID, new DataBaseHandler().getMyId(friendLogin))) {
+            addFriendButton.setText("Заявка отправлена");
+            addFriendButton.setDisable(true);
+        }
+        if (new DataBaseHandler().isFriend(Const.myID,new DataBaseHandler().getMyId(friendLogin))){
+            addFriendButton.setText("Друг");
+            addFriendButton.setDisable(true);
         }
 
 

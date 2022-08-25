@@ -2,8 +2,18 @@ package com.example.boys_net_2;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
+
+import com.example.boys_net_2.Other.Const;
+import com.example.boys_net_2.Other.DataBaseHandler;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -59,18 +69,91 @@ public class DialogController implements Initializable {
 
     @FXML
     private TextArea textArea;
+    static boolean inChat = false;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        System.out.println(Thread.currentThread() + "  Initialize");
+        inChat = true;
+        serviceStart.start();
         cursorOnFriends();
         cursorOnMessage();
         cursorOnProfile();
 
-        profileIcon.setOnMouseClicked((this::switchSceneProfile));
-        friendsIcon.setOnMouseClicked((this::switchSceneFriends));
-        messageIcon.setOnMouseClicked(this::switchSceneMessage);
+
+        profileIcon.setOnMouseClicked((event -> {
+            switchSceneProfile(event);
+            inChat=false;
+        }));
+        friendsIcon.setOnMouseClicked((event -> {
+            switchSceneFriends(event);
+            inChat=false;
+        }));
+        messageIcon.setOnMouseClicked((event -> {
+            switchSceneMessage(event);
+            inChat=false;
+        }));
+        sendButton.setOnMouseClicked((event -> {
+            if (!textArea.getText().equals("")){
+            DataBaseHandler dataBaseHandler = new DataBaseHandler();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            String whoName =dataBaseHandler.getProfileSurname(Const.realLogin);
+            String whoSurname = dataBaseHandler.getProfileName(Const.realLogin);
+            String time  = dtf.format(now);
+            String text = textArea.getText();
+            textArea.clear();
+            dataBaseHandler.sendMessage(whoName,whoSurname,time,text);
+            updatePage();
+            }
+        }));
+
+    }
+
+
+
+
+
+
+    Service<Void> serviceStart = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                updatePage();
+
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            finally {
+                                latch.countDown();
+                            }
+                        }
+                    });
+                    latch.await();
+                    return null;
+                }
+            };
+        }
+    };
+
+    void updatePage(){
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        dataBaseHandler.showDialog(AnchorPaneInScrollPane);
+        dataBaseHandler.openDialog(dataBaseHandler.getChatId(Const.realLogin, dataBaseHandler.getLogin(Const.idToGo)));
+
+    }
+    void liveUpdate(){
+        new DataBaseHandler().showDialog(AnchorPaneInScrollPane);
     }
 
     void cursorOnFriends(){
@@ -130,4 +213,6 @@ public class DialogController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
+
+
 }

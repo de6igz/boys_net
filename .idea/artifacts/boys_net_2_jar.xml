@@ -15,6 +15,11 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/17.0.2/javafx-base-17.0.2-win.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/kordamp/ikonli/ikonli-core/12.3.1/ikonli-core-12.3.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/kordamp/ikonli/ikonli-javafx/12.3.1/ikonli-javafx-12.3.1.jar" path-in-jar="/" />
+      <element id="directory" name="frameworks">
+        <element id="library" level="project" name="commons-net-3.8.0" />
+        <element id="library" level="project" name="javafx-media-17.0.2" />
+        <element id="library" level="project" name="mysql-connector-java-8.0.29" />
+      </element>
     </root>
   </artifact>
 </component>

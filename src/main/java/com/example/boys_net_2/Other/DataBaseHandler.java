@@ -26,7 +26,7 @@ public class DataBaseHandler {
 
 
 
-    public String getProfileName(String login) throws SQLException {
+    public String getProfileName(String login)  {
         String select = "SELECT name FROM " + Const.USERS_TABLE + " WHERE " + Const.login + "=" + "'" +login+ "'";
         try {
             Statement statement = getDbConnect().createStatement();
@@ -40,7 +40,7 @@ public class DataBaseHandler {
         }
         return null;
     }
-    public String getProfileSurname(String login) throws SQLException {
+    public String getProfileSurname(String login)  {
         String select = "SELECT surname FROM " + Const.USERS_TABLE + " WHERE " + Const.login + "=" + "'" +login+ "'";
         try {
             Statement statement = getDbConnect().createStatement();
@@ -110,7 +110,7 @@ public class DataBaseHandler {
             resultSet.next();
             return resultSet.getString(1);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw  new RuntimeException(e);
         }
     }
 
@@ -485,7 +485,7 @@ public class DataBaseHandler {
         }
     }
     public void deleteFriendRequest(int myId,int friendId){
-        //DELETE FROM `friendRequest` WHERE 0
+
         String delete = "DELETE FROM "+Const.FRIEND_REQUESTS_TABLE + " WHERE fromWho="+friendId+ " AND toWho="+myId;
         try {
             Statement statement = getDbConnect().createStatement();
@@ -558,10 +558,40 @@ public class DataBaseHandler {
         }
     }
 
-    public void openDialogBetween(String user1Login,String user2Login){
-        //SELECT `chatID` FROM `friends` ORDER BY chatID DESC LIMIT 1
+    public void openDialog(String chatID){
+        try{
+            String select ="SELECT whoName,whoSurname,time,text FROM DialogNumber" + chatID;
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+        } catch (SQLException e) {
+            String create = "CREATE TABLE DialogNumber"+chatID+" (" +
+                    "``whoName` VARCHAR(64) NOT NULL , `whoSurname` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB";  //CREATE TABLE `u1768436_boysnet`.`DialogNumber` ( `who` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB;
+            try {
+                Statement statement = getDbConnect().createStatement();
+                statement.executeUpdate(create);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+
+
     }
-    int getLastChatId(){
+
+    public String getChatId(String login1,String login2){
+        try {
+            String select ="SELECT chatID FROM " + Const.FRIENDS_TABLE + " WHERE user1=" + "'"+login1+"'" +" AND user2=" + "'"+login2+"'";
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            if (resultSet.next())
+                return resultSet.getString(1);
+            else
+                return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int getLastChatId(){
         String select = "SELECT chatID FROM " + Const.FRIENDS_TABLE + " ORDER BY chatID DESC LIMIT 1";
         try {
             Statement statement = getDbConnect().createStatement();
@@ -575,4 +605,61 @@ public class DataBaseHandler {
             throw new RuntimeException(e);
         }
     }
+    public static double bottom;
+    public void showDialog(AnchorPane anchorPane){
+        try {
+            String select = "SELECT whoName,whoSurname,time,text FROM DialogNumber" + getChatId(Const.realLogin,getLogin(Const.idToGo));
+            Statement statement = getDbConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            double height = anchorPane.getHeight();
+            double x=10;
+            double y=10;
+            while (resultSet.next()){
+                //friendNameLabel.setFont(new Font("VAG World Bold", 18));
+
+                try {
+                    if (getUserLogin(resultSet.getString(2),resultSet.getString(1)).equals(Const.realLogin))
+                        x+=800;
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                height+=50;
+                Label infoLabel = new Label();
+                infoLabel.setFont(new Font("VAG World Bold", 15));
+                infoLabel.setLayoutX(x);
+                infoLabel.setLayoutY(y);
+                infoLabel.setText(resultSet.getString(1) +" "+resultSet.getString(2)+" " +resultSet.getString(3));
+
+                Label textLabel = new Label();
+                textLabel.setFont(new Font("VAG World Bold", 20));
+                textLabel.setLayoutX(x);
+                textLabel.setLayoutY(y+15);
+                textLabel.setText(resultSet.getString(4));
+
+                anchorPane.setPrefHeight(height);
+                y+=80;
+                anchorPane.getChildren().add(infoLabel);
+                anchorPane.getChildren().add(textLabel);
+
+                x=10;
+
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void sendMessage(String whoName,String whoSurname,String time,String text){
+        try {
+            //String insert1 = "INSERT INTO " + Const.FRIENDS_TABLE + "(user1,user2,chatID) " + "VALUES(" + "'" +getLogin(id) + "'" + ","+"'" +Const.realLogin + "'"+","+newId + ")";
+            String insert = "INSERt INTO DialogNumber" + getChatId(Const.realLogin, getLogin(Const.idToGo)) + " (whoName,whoSurname,time,text) " + "VALUES(" +"'"+whoName+"'"+", "+"'"+whoSurname+"'"+", " + "'"+time+"'"+", " + "'"+text+"')";
+            Statement statement = getDbConnect().createStatement();
+            statement.executeUpdate(insert);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
