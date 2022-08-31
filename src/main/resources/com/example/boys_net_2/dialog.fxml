@@ -58,6 +58,11 @@
                   <Font size="18.0" />
                </font>
             </TextArea>
+            <Button fx:id="updateButton" layoutX="955.0" layoutY="320.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="177.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Обновить" textFill="#fbf3e6">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
             <Button fx:id="sendButton" layoutX="955.0" layoutY="394.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="177.0" style="-fx-background-color: BLACK; -fx-border-radius: 30;" stylesheets="@button.css" text="Отправить" textFill="#fbf3e6">
                <font>
                   <Font name="System Bold" size="22.0" />

@@ -56,12 +56,12 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Button>
-            <Label fx:id="nameLabel" layoutX="449.0" layoutY="53.0" prefHeight="82.0" prefWidth="696.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="Имя">
+            <Label fx:id="nameLabel" layoutX="449.0" layoutY="53.0" prefHeight="82.0" prefWidth="696.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css">
                <font>
                   <Font name="Serif Bold" size="55.0" />
                </font>
             </Label>
-            <Label fx:id="surnameLabel" layoutX="449.0" layoutY="135.0" prefHeight="82.0" prefWidth="696.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css" text="Фамилия">
+            <Label fx:id="surnameLabel" layoutX="449.0" layoutY="135.0" prefHeight="82.0" prefWidth="696.0" style="-fx-font-family: VAG World Bold;" stylesheets="@boysNet.css">
                <font>
                   <Font name="Serif Bold" size="55.0" />
                </font>

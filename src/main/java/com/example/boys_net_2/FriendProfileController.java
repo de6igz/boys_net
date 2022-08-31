@@ -144,13 +144,7 @@ public class FriendProfileController implements Initializable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        try {
-            boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
-            if (success)
-                System.out.println("Скачалось");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
         try {
             outputStream1.close();
         } catch (IOException e) {

@@ -12,7 +12,7 @@ public class DataBaseHandler {
     public Connection getDbConnect() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://31.31.198.106:3306/u1768436_boysnet", "u1768436_user", "root12345678");
+            connection = DriverManager.getConnection("jdbc:mysql://31.31.198.106:3306/u1768436_boysnet", DataBaseLogin.user, DataBaseLogin.password);
             return connection;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class DataBaseHandler {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
-                System.out.println(resultSet.getInt(1));
+
                 Const.lastID = resultSet.getInt(1);
                 return resultSet.getInt(1);
             }
@@ -137,7 +137,7 @@ public class DataBaseHandler {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
-                System.out.println(resultSet.getInt(1));
+
 
                 return resultSet.getInt(1);
             }
@@ -154,7 +154,7 @@ public class DataBaseHandler {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
-                System.out.println(resultSet.getString(1));
+
 
                 return resultSet.getString(1);
             }
@@ -171,7 +171,7 @@ public class DataBaseHandler {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
-                System.out.println(resultSet.getString(1));
+
 
                 return resultSet.getString(1);
             }
@@ -188,7 +188,7 @@ public class DataBaseHandler {
             Statement statement = getDbConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             if (resultSet.next()) {
-                System.out.println(resultSet.getInt(1));
+
 
                 return resultSet.getInt(1);
             }
@@ -201,7 +201,7 @@ public class DataBaseHandler {
 
     public void showFriendRequests(int myId,Pane pane){
         if (doIhaveFriendRequest(Const.myID)){
-            System.out.println(myId);
+
             String select = "SELECT fromWho FROM " + Const.FRIEND_REQUESTS_TABLE + " WHERE toWho="+myId;
             try {
                 int id =-1;
@@ -456,7 +456,7 @@ public class DataBaseHandler {
             String insert = "INSERT INTO " + Const.FRIEND_REQUESTS_TABLE + " (fromWho,toWho,isAccepted)" + "VALUES(" +Const.myID+"," + idToGo+","+0+")";
             Statement statement =getDbConnect().createStatement();
             statement.executeUpdate(insert);
-            System.out.println("Заявка отправлена");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -565,7 +565,7 @@ public class DataBaseHandler {
             ResultSet resultSet = statement.executeQuery(select);
         } catch (SQLException e) {
             String create = "CREATE TABLE DialogNumber"+chatID+" (" +
-                    "``whoName` VARCHAR(64) NOT NULL , `whoSurname` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB";  //CREATE TABLE `u1768436_boysnet`.`DialogNumber` ( `who` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB;
+                    "`whoName` VARCHAR(64) NOT NULL , `whoSurname` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB";  //CREATE TABLE `u1768436_boysnet`.`DialogNumber` ( `who` VARCHAR(64) NOT NULL , `time` VARCHAR(64) NOT NULL , `text` TEXT NOT NULL ) ENGINE = InnoDB;
             try {
                 Statement statement = getDbConnect().createStatement();
                 statement.executeUpdate(create);

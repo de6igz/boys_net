@@ -1,12 +1,5 @@
 package com.example.boys_net_2;
 
-import java.io.*;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
-
 import com.example.boys_net_2.Other.Const;
 import com.example.boys_net_2.Other.DataBaseHandler;
 import javafx.application.Platform;
@@ -29,6 +22,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+
+import java.io.*;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 public class ProfileController implements Initializable {
 
@@ -259,8 +258,8 @@ public class ProfileController implements Initializable {
         }
         try {
             boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
-            if (success)
-                System.out.println("Скачалось");
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

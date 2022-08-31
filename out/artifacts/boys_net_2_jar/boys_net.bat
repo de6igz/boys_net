@@ -1,1 +1,0 @@
-java -jar boys_net_2.jar

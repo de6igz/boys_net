@@ -69,6 +69,9 @@ public class DialogController implements Initializable {
 
     @FXML
     private TextArea textArea;
+
+    @FXML
+    private Button updateButton;
     static boolean inChat = false;
 
 
@@ -108,6 +111,9 @@ public class DialogController implements Initializable {
             updatePage();
             }
         }));
+        updateButton.setOnMouseClicked((event -> {
+            updatePage();
+        }));
 
     }
 
@@ -131,7 +137,7 @@ public class DialogController implements Initializable {
                                 updatePage();
 
                             } catch (Exception e) {
-                                throw new RuntimeException(e);
+                                e.printStackTrace();
                             }
 
                             finally {
@@ -148,8 +154,8 @@ public class DialogController implements Initializable {
 
     void updatePage(){
         DataBaseHandler dataBaseHandler = new DataBaseHandler();
-        dataBaseHandler.showDialog(AnchorPaneInScrollPane);
         dataBaseHandler.openDialog(dataBaseHandler.getChatId(Const.realLogin, dataBaseHandler.getLogin(Const.idToGo)));
+        dataBaseHandler.showDialog(AnchorPaneInScrollPane);
 
     }
     void liveUpdate(){
